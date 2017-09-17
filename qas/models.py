@@ -2,22 +2,13 @@ from __future__ import unicode_literals
 
 from uuid import uuid4
 
-from django.contrib.auth.models import get_user_model, AbstractBaseUser
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
 from django.utils.translation import ugettext as _
 
 User = get_user_model()
 
-
-class User(AbstractBaseUser):
-    name = models.CharField( _("Name of the user"), max_length=70, blank=True )
-
-    class __unicode__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = _("User")
-        verbose_name_plural = _("Users")
 
 class Question(models.Model):
     title = models.CharField( _("Title of the question") , max_length=130, )
@@ -35,14 +26,14 @@ class Question(models.Model):
 class Answer(models.Model):
     body = models.TextField( _("Answer to the question") ) 
     question = models.ForeignKey( Question, related_name=_("answers") )
-    user = models.Foreign_key( User, related_name=_("answers") )
+    user = models.ForeignKey( User, related_name=_("answers") )
 
     def __unicode__(self):
         return "{} - {}".format(self.body[:50])
 
     class Meta:
-        verbose_name = _("Question")
-        verbose_name_plural = _("Questions")
+        verbose_name = _("Answer")
+        verbose_name_plural = _("Answers")
 
 
 class TenantManager(models.Manager):
@@ -58,7 +49,7 @@ class Tenant(models.Model):
 
     objects = TenantManager()
 
-    class __unicode__(self):
+    def __unicode__(self):
         return "{} - {}".format(self.name, self.api_key)
 
     class Meta:
