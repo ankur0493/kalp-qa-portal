@@ -29,7 +29,7 @@ class Answer(models.Model):
     user = models.ForeignKey( User, related_name=_("answers") )
 
     def __unicode__(self):
-        return "{} - {}".format(self.body[:50])
+        return "{}".format(self.body[:50])
 
     class Meta:
         verbose_name = _("Answer")
