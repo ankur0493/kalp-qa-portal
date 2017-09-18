@@ -40,7 +40,6 @@ class TenantRateThrottle(throttling.SimpleRateThrottle):
         self.throttled_access_history = self.cache.get(self.throttled_access_key, [])
         self.now = self.timer()
         self.throttled_access_duration = self.get_throttled_access_duration(request)
-        print(self.throttled_access_history)
         # Drop any requests from the history which have now passed the
         # throttle duration
         while self.history and self.history[-1] <= self.now - self.duration:
@@ -50,7 +49,7 @@ class TenantRateThrottle(throttling.SimpleRateThrottle):
             self.throttled_access_history.pop()
 
         if len(self.history) >= self.num_requests:
-            if self.throttled_access_history and self.throttled_access_history[-1] >= self.now - self.throttled_access_duration:
+            if self.throttled_access_history and self.throttled_access_history[0] >= self.now - self.throttled_access_duration:
                 return self.throttle_failure()
             return self.throttle_success(access_type='throttled')
         return self.throttle_success(access_type='full')
@@ -75,12 +74,7 @@ class TenantRateThrottle(throttling.SimpleRateThrottle):
         Returns the recommended next request time in seconds.
         """
         if self.throttled_access_history:
-            remaining_duration = self.throttled_access_duration - (self.now - self.throttled_access_history[-1])
+            remaining_duration = self.throttled_access_duration - (self.now - self.throttled_access_history[0])
         else:
             remaining_duration = self.throttled_access_duration
-
-        available_requests = self.num_requests - len(self.throttled_access_history) + 1
-        if available_requests <= 0:
-            return None
-
-        return remaining_duration / float(available_requests)
+        return remaining_duration
