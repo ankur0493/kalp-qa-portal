@@ -10,3 +10,10 @@ class QuestionListView(generics.ListAPIView):
     permission_classes = (TentantAPIKeyPermission, )
     throttle_classes = (TenantRateThrottle, )
     queryset = Question.objects.exclude(private=True)
+
+    def get_queryset(self):
+        queryset = Question.objects.exclude(private=True)
+        query = self.request.query_params.get("q", "")
+        if query:
+            queryset = queryset.filter(title__icontains=query)
+        return queryset
