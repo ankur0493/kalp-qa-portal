@@ -18,7 +18,7 @@ class AnswerSerializer(BaseSerializer, serializers.ModelSerializer):
 
     class Meta:
         model = Answer
-        fields = ('body', 'user_id', 'user_name')
+        fields = ('id', 'body', 'user_id', 'user_name')
 
 class QuestionSerializer(BaseSerializer, serializers.ModelSerializer):
     answers = AnswerSerializer(many=True)

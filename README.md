@@ -8,7 +8,7 @@ A minimalistic Q&A application with following features:
 - [x] Every API request requires a valid Tenant API key to be included
 - [x] API request counts are tracked per Tenant
 - [x] An HTML dashboard page as the root URL that shows the total number of Users, Questions, and Answers in the system, as well as Tenant API request counts for all Tenants
-- [ ] Tests for all code
+- [x] Tests for all code
 - [x] Questions can be filtered on query terms by adding a query parameter to the API Request
 - [x] API requests are throttled on a per-Tenant basis. After the first 100 requests per day, only 1 request per 10 seconds is allowed
 
