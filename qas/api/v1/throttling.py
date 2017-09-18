@@ -46,7 +46,7 @@ class TenantRateThrottle(throttling.SimpleRateThrottle):
         while self.history and self.history[-1] <= self.now - self.duration:
             self.history.pop()
 
-        while self.throttled_access_history and self.throttled_access_history[-1] <= self.now - self.throttled_access_duration:
+        while self.throttled_access_history and self.throttled_access_history[-1] <= self.now - self.duration:
             self.throttled_access_history.pop()
 
         if len(self.history) >= self.num_requests:
@@ -63,13 +63,11 @@ class TenantRateThrottle(throttling.SimpleRateThrottle):
         if access_type=='full':
             history = self.history
             key = self.key
-            duration = self.duration
         else:
             history = self.throttled_access_history
             key = self.throttled_access_key
-            duration = self.throttled_access_duration
         history.insert(0, self.now)
-        self.cache.set(key, history, duration)
+        self.cache.set(key, history, self.duration)
         return True
 
     def wait(self):

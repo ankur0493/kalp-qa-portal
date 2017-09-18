@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" {%block html_attribs%}{%endblock html_attribs%}>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="row"><br /><br /></div>
+            <div class="row justify-content-center">
+                <div class="col-4">Total number of Users in the System = {{ num_users }}</div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-4">Total number of Questions in the System = {{ num_questions }}</div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-4">Total number of Answers in the System = {{ num_answers }}</div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-4"><h5>Tenant API Access Count:</h5></div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-3">
+                    {% for tenant_name, access_count in tenant_api_access_count.items %}
+                        {{ tenant_name }} - {{ access_count }}<br />
+                    {% endfor %}
+                </div>
+            </div>
+            </p>
+        </div>
+    </body>
+</html>
