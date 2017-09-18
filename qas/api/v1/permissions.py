@@ -31,8 +31,9 @@ class TentantAPIKeyPermission(permissions.BasePermission):
 
         # Fetch credentials for API key from the data store.
         try:
-            user = self.fetch_user_data(api_key)
-            if user:
+            tenant = self.fetch_user_data(api_key)
+            if tenant:
+                request.TENANT = tenant
                 return True
         except TypeError:
             return False
